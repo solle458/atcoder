@@ -1,7 +1,6 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <queue>
 #include <atcoder/segtree>
 
 using namespace std;
@@ -17,7 +16,7 @@ int e(){
 
 int n;
 vector<vector<int>> g;
-vector<int> v, id, cost, sum;
+vector<int> v, id;
 segtree<int, op, e> seg(1e6);
 
 void dfs(int now, int pre, int d){
@@ -26,11 +25,9 @@ void dfs(int now, int pre, int d){
   v.push_back(now);
   for(auto to : g[now]){
     if(to == pre)continue;
-    cost.push_back(1);
     dfs(to, now, d+1);
     seg.set(v.size(), d);
     v.push_back(now);
-    cost.push_back(-1);
   }
 }
 
@@ -48,9 +45,6 @@ int main(){
     g[v].push_back(u);
   }
   dfs(0, -1, 0);
-  int c = cost.size();
-  sum.resize(c+1, 0);
-  for(int i = 0; i < c; i++) sum[i+1] += sum[i] + cost[i];
   for(int i = 0; i < q; i++){
     int u, v; 
     cin >> u >> v;
