@@ -24,3 +24,4 @@ https://wk1080id.hatenablog.com/entry/2020/05/30/004858<br>
 https://atcoder.github.io/ac-library/production/document_ja/segtree.html<br>
 クエリなので毎回最短経路を求めている暇はない。辺の本数がN-1本でかつすべての頂点が繋がっているのでオイラーツアー＋LCA＋セグ木で答える。<br>
 この方法を調べて初めて知ったけど実装できてよかった。もっと簡単な解法があったっぽい？<br>
+セグ木のサイズが制約より小さくて1ペナ(RE)
