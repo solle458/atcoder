@@ -1,27 +1,26 @@
 #include <iostream>
 #include <vector>
-#include <map>
 #include <algorithm>
+#include <atcoder/dsu>
 
 using namespace std;
+using namespace atcoder;
 
 int main(){
   int n;
   cin >> n;
   vector<int> a(n);
-  for(auto &x : a) cin >> x;
-  map<int, int> l, r;
+  for(auto &x : a){
+    cin >> x;
+    x--;
+  }
+  dsu d(2*100000);
   for(int i = 0; i < n/2; i++){
-    if(a[i] != a[n-1-i]){
-      l[a[i]]++;
-      r[a[n-1-i]]++;
+    if(a[i] != a[n-i-1]){
+      d.merge(a[i], a[n-i-1]);
     }
   }
-  bool eq = false;
-  for(auto [f, s] : l){
-    if(r.count(f))eq = true;
-  }
-  if(l.empty())cout << 0 << endl;
-  else if(eq) cout << max(l.size())-1 << endl;
-  else cout << max(l.size(), r.size()) << endl;
+  int ans = 0;
+  for(int i = 0; i < 2*100000; i++)if(i == d.leader(i)) ans += d.size(i) - 1;
+  cout << ans << endl;
 }
