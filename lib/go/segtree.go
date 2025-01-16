@@ -1,154 +1,200 @@
-package seg
+package main
 
 import (
 	"fmt"
-	"math"
 )
 
-type Operation[T any] struct {
-	IdentifyElement T            // 単位元
-	Operation       func(T, T) T // 区間マージ
-	Mapping         func(T, T) T // 遅延値の適応
-	Composition     func(T, T) T // 遅延値のマージ
+type LazySegtree[S any, F any] struct {
+	n, size, log int
+	data         []S
+	lazy         []F
+	lazyFlag     []bool
+	op           func(S, S) S // 区間マージ
+	e            func() S     // 単位元
+	mapping      func(F, S) S // 遅延適用
+	composition  func(F, F) F // 遅延マージ
+	id           func() F     // 遅延単位元
 }
 
-type LazySegtree[T any] struct {
-	n          int
-	data, lazy []T
-	op         Operation[T]
-	lazyOn     []bool
-}
-
-func NewLazySegtree[T any](size int, op Operation[T]) *LazySegtree[T] {
-	n := 1
-	for n < size {
-		n *= 2
+func NewLazySegtree[S any, F any](
+	v []S,  //セグ木の初期値が分かっているとき
+	// n S, //セグ木のサイズのみわかっているとき
+	op func(S, S) S,
+	e func() S,
+	mapping func(F, S) S,
+	composition func(F, F) F,
+	id func() F,
+) *LazySegtree[S, F] {
+	n := len(v)
+	log := 0
+	for (1 << log) < n {
+		log++
 	}
-	data := make([]T, 2*n-1)
-	lazy := make([]T, 2*n-1)
-	lazyOn := make([]bool, 2*n-1)
+	size := 1 << log
+	data := make([]S, 2*size)
+	lazy := make([]F, size)
+	lazyFlag := make([]bool, size)
 
-	// 単位元で初期化
 	for i := range data {
-		data[i] = op.IdentifyElement
-		lazy[i] = op.IdentifyElement
+		data[i] = e()
+	}
+	for i := range lazy {
+		lazy[i] = id()
 	}
 
-	return &LazySegtree[T]{
-		n:      n,
-		data:   data,
-		lazy:   lazy,
-		op:     op,
-		lazyOn: lazyOn,
+	for i := 0; i < n; i++ {
+		data[size+i] = v[i]
+	}
+	for i := size - 1; i > 0; i-- {
+		data[i] = op(data[2*i], data[2*i+1])
+	}
+
+	return &LazySegtree[S, F]{
+		n:           n,
+		size:        size,
+		log:         log,
+		data:        data,
+		lazy:        lazy,
+		lazyFlag:    lazyFlag,
+		op:          op,
+		e:           e,
+		mapping:     mapping,
+		composition: composition,
+		id:          id,
 	}
 }
 
-func (st *LazySegtree[T]) Set(i int, x T) {
-	i += st.n - 1
-	st.data[i] = x
-	for i > 0 {
-		i = (i - 1) / 2
-		st.data[i] = st.op.Operation(st.data[i*2+1], st.data[i*2+2])
+func (st *LazySegtree[S, F]) update(k int) {
+	st.data[k] = st.op(st.data[2*k], st.data[2*k+1])
+}
+
+func (st *LazySegtree[S, F]) allApply(k int, f F) {
+	st.data[k] = st.mapping(f, st.data[k])
+	if k < st.size {
+		st.lazy[k] = st.composition(f, st.lazy[k])
+		st.lazyFlag[k] = true
 	}
 }
 
-func (st *LazySegtree[T]) Get(i int) T {
-	st.propagate(i+st.n-1, 0, 1) // 遅延値を適用してから取得
-	return st.data[i+st.n-1]
+func (st *LazySegtree[S, F]) push(k int) {
+	if st.lazyFlag[k] {
+		st.allApply(2*k, st.lazy[k])
+		st.allApply(2*k+1, st.lazy[k])
+		st.lazy[k] = st.id()
+		st.lazyFlag[k] = false
+	}
 }
 
-func (st *LazySegtree[T]) propagate(i, l, r int) {
-	if !st.lazyOn[i] {
+func (st *LazySegtree[S, F]) Set(p int, x S) {
+	p += st.size
+	for i := st.log; i > 0; i-- {
+		st.push(p >> i)
+	}
+	st.data[p] = x
+	for i := 1; i <= st.log; i++ {
+		st.update(p >> i)
+	}
+}
+
+func (st *LazySegtree[S, F]) Get(p int) S {
+	p += st.size
+	for i := st.log; i > 0; i-- {
+		st.push(p >> i)
+	}
+	return st.data[p]
+}
+
+func (st *LazySegtree[S, F]) Prod(l, r int) S {
+	if l == r {
+		return st.e()
+	}
+
+	l += st.size
+	r += st.size
+
+	for i := st.log; i > 0; i-- {
+		if ((l >> i) << i) != l {
+			st.push(l >> i)
+		}
+		if ((r >> i) << i) != r {
+			st.push((r - 1) >> i)
+		}
+	}
+
+	sml, smr := st.e(), st.e()
+	for l < r {
+		if l&1 == 1 {
+			sml = st.op(sml, st.data[l])
+			l++
+		}
+		if r&1 == 1 {
+			r--
+			smr = st.op(st.data[r], smr)
+		}
+		l >>= 1
+		r >>= 1
+	}
+
+	return st.op(sml, smr)
+}
+
+func (st *LazySegtree[S, F]) Apply(l, r int, f F) {
+	if l == r {
 		return
 	}
-	// 遅延値を適用
-	st.data[i] = st.op.Mapping(st.data[i], st.lazy[i])
-	if r-l > 1 {
-		// 子ノードへの伝搬
-		st.lazyOn[i*2+1] = true
-		st.lazyOn[i*2+2] = true
-		st.lazy[i*2+1] = st.op.Composition(st.lazy[i*2+1], st.lazy[i])
-		st.lazy[i*2+2] = st.op.Composition(st.lazy[i*2+2], st.lazy[i])
-	}
-	st.lazyOn[i] = false
-}
 
-func (st *LazySegtree[T]) update(a, b int, x T, k, l, r int) {
-	st.propagate(k, l, r)
-	if a >= r || b <= l {
-		return
-	}
-	if a <= l && r <= b {
-		st.lazy[k] = st.op.Composition(st.lazy[k], x)
-		st.lazyOn[k] = true
-		st.propagate(k, l, r)
-		return
-	}
-	mid := (l + r) / 2
-	st.update(a, b, x, 2*k+1, l, mid)
-	st.update(a, b, x, 2*k+2, mid, r)
-	st.data[k] = st.op.Operation(st.data[2*k+1], st.data[2*k+2])
-}
+	l += st.size
+	r += st.size
 
-func (st *LazySegtree[T]) Update(a, b int, x T) {
-	st.update(a, b, x, 0, 0, st.n)
-}
-
-func (st *LazySegtree[T]) query(a, b, k, l, r int) T {
-	st.propagate(k, l, r)
-	if b <= l || r <= a {
-		return st.op.IdentifyElement
+	for i := st.log; i > 0; i-- {
+		if ((l >> i) << i) != l {
+			st.push(l >> i)
+		}
+		if ((r >> i) << i) != r {
+			st.push((r - 1) >> i)
+		}
 	}
-	if a <= l && r <= b {
-		return st.data[k]
-	}
-	mid := (l + r) / 2
-	lv := st.query(a, b, 2*k+1, l, mid)
-	rv := st.query(a, b, 2*k+2, mid, r)
-	return st.op.Operation(lv, rv)
-}
 
-func (st *LazySegtree[T]) Query(a, b int) T {
-	return st.query(a, b, 0, 0, st.n)
+	{
+		l2, r2 := l, r
+		for l < r {
+			if l&1 == 1 {
+				st.allApply(l, f)
+				l++
+			}
+			if r&1 == 1 {
+				r--
+				st.allApply(r, f)
+			}
+			l >>= 1
+			r >>= 1
+		}
+		l = l2
+		r = r2
+	}
+
+	for i := 1; i <= st.log; i++ {
+		if ((l >> i) << i) != l {
+			st.update(l >> i)
+		}
+		if ((r >> i) << i) != r {
+			st.update((r - 1) >> i)
+		}
+	}
 }
 
 func main() {
-	op := Operation[int]{
-		IdentifyElement: math.MaxInt32,                           // 初期値は ∞
-		Operation:       func(a, b int) int { return min(a, b) }, // 最小値
-		Mapping:         func(a, x int) int { return a + x },     // 加算
-		Composition:     func(a, b int) int { return a + b },     // 遅延値の加算
-	}
+	// 区間加算・区間最小値
+	op := func(a, b int) int { return min(a, b) }
+	e := func() int { return 1 << 30 }
+	mapping := func(f, x int) int { return f + x }
+	composition := func(f, g int) int { return f + g }
+	id := func() int { return 0 }
 
-	// セグメントツリーの作成
-	n := 8
-	st := NewLazySegtree[int](n, op)
-
-	// 初期値を設定
-	for i := 0; i < n; i++ {
-		st.Set(i, i)
-	}
-
-	// 現在の配列を出力
-	fmt.Println("Initial array:")
-	for i := 0; i < n; i++ {
-		fmt.Println(st.Get(i))
-	}
-
-	// 区間加算 [2, 5) に 10 を加算
-	st.Update(2, 5, 10)
-
-	// 配列を出力
-	fmt.Println("After Update [2, 5) +10:")
-	for i := 0; i < n; i++ {
-		fmt.Println(st.Get(i))
-	}
-
-	// 区間最小値を取得 [0, 8)
-	fmt.Println("Query [0, 8):", st.Query(0, 8)) // 出力: 0
-
-	// 区間最小値を取得 [2, 5)
-	fmt.Println("Query [2, 5):", st.Query(2, 5)) // 出力: 12
+	st := NewLazySegtree([]int{1, 2, 3, 4, 5, 6, 7, 8}, op, e, mapping, composition, id)
+	st.Apply(2, 5, 10)         // 区間 [2, 5) に 10 を加算
+	fmt.Println(st.Prod(0, 8)) // 区間 [0, 8) の最小値: 1
+	fmt.Println(st.Prod(2, 5)) // 区間 [2, 5) の最小値: 13
 }
 
 func min(a, b int) int {
