@@ -3,30 +3,20 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
-	"strconv"
 )
 
-var sc = bufio.NewScanner(os.Stdin)
-
-func scanInt() (i int) {
-	var err error
-	sc.Scan()
-	i, err = strconv.Atoi(sc.Text())
-	if err != nil {
-		log.Fatal(err)
-	}
-	return
-}
-
 func main() {
-	sc.Split(bufio.ScanWords)
+	r := bufio.NewReader(os.Stdin)
+	w := bufio.NewWriter(os.Stdout)
+	defer w.Flush()
+	
+	var n int
 
-	n := scanInt()
+	fmt.Fscan(r, &n)
 	a := make([]int, n)
 	for i := 0; i < n; i++ {
-		a[i] = scanInt()
+		fmt.Fscan(r, &a[i])
 	}
 
 	op := func(x, y int) int { return x + y }
@@ -49,9 +39,9 @@ func main() {
 	}
 
 	for i := 0; i < n-1; i++ {
-		fmt.Printf("%d ", seg.Get(i))
+		fmt.Fprintf(w, "%d ", seg.Get(i))
 	}
-	fmt.Println(seg.Get(n - 1))
+	fmt.Fprintln(w, seg.Get(n - 1))
 }
 
 type LazySegtree[S any, F any] struct {
