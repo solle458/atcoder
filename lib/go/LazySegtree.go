@@ -1,9 +1,5 @@
 package LazySegtree
 
-import (
-	"fmt"
-)
-
 type LazySegtree[S any, F any] struct {
 	n, size, log int
 	data         []S
@@ -17,7 +13,7 @@ type LazySegtree[S any, F any] struct {
 }
 
 func NewLazySegtree[S any, F any](
-	v []S,  //セグ木の初期値が分かっているとき
+	v []S, //セグ木の初期値が分かっているとき
 	// n S, //セグ木のサイズのみわかっているとき
 	op func(S, S) S,
 	e func() S,
@@ -181,25 +177,4 @@ func (st *LazySegtree[S, F]) Apply(l, r int, f F) {
 			st.update((r - 1) >> i)
 		}
 	}
-}
-
-func main() {
-	// 区間加算・区間最小値
-	op := func(a, b int) int { return min(a, b) }
-	e := func() int { return 1 << 30 }
-	mapping := func(f, x int) int { return f + x }
-	composition := func(f, g int) int { return f + g }
-	id := func() int { return 0 }
-
-	st := NewLazySegtree([]int{1, 2, 3, 4, 5, 6, 7, 8}, op, e, mapping, composition, id)
-	st.Apply(2, 5, 10)         // 区間 [2, 5) に 10 を加算
-	fmt.Println(st.Prod(0, 8)) // 区間 [0, 8) の最小値: 1
-	fmt.Println(st.Prod(2, 5)) // 区間 [2, 5) の最小値: 13
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
