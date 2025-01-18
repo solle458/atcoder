@@ -1,3 +1,3 @@
-module github.com/solle458/atcoder/tree/main/lib/go/LazySegmentTree
+module github.com/solle458/atcoder/lib/go/LazySegtree
 
 go 1.23.4

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/solle458/atcoder/tree/main/lib/go/LazySegtree.go"
+	"github.com/solle458/atcoder/lib/go/LazySegtree/LazySegtree.go"
 )
 
 func main() {
