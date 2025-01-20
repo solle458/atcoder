@@ -1,12 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-
-	"github.com/solle458/atcoder/lib/go/LazySegtree/LazySegtree.go"
+	"os"
 )
 
 func main() {
-	fmt.Println("Hello, World!")
-	seg := LazySegtree.NewLazySegtree([]int{1, 2, 3, 4}, func(a, b int) int { return a + b }, func() int { return 0 }, func(f, x int) int { return f + x }, func(f, g int) int { return f + g }, func() int { return 0 })
+	var r = bufio.NewReader(os.Stdin)
+	var w = bufio.NewWriter(os.Stdout)
+	defer w.Flush()
+
+	var s string
+	fmt.Fscan(r, &s)
+	fmt.Fprintln(w, int(s[0]-'0')*int(s[2]-'0'))
 }
