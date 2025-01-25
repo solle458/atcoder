@@ -9,7 +9,7 @@ func Max[T int | float64 | string](a *T, b T) bool {
 	}
 }
 
-func Min[T int | float64 | string](a T, b T) bool {
+func Min[T int | float64 | string](a *T, b T) bool {
 	if *a > b {
 		*a = b
 		return true
@@ -21,7 +21,7 @@ func Min[T int | float64 | string](a T, b T) bool {
 func max[T int | float64 | string](a, b T) T {
 	if a > b {
 		return a
-	}else{
+	} else {
 		return b
 	}
 }
@@ -29,7 +29,11 @@ func max[T int | float64 | string](a, b T) T {
 func min[T int | float64 | string](a, b T) T {
 	if a > b {
 		return b
-	}else{
+	} else {
 		return a
 	}
+}
+
+func Swap[T int | float64 | string](a, b *T) {
+	*a, *b = *b, *a
 }
