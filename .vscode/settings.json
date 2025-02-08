@@ -60,6 +60,7 @@
     "iostream": "cpp",
     "set": "cpp",
     "ostream": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "iomanip": "cpp"
   }
 }
