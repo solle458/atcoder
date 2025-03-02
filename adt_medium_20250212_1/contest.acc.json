@@ -1,0 +1,64 @@
+{
+  "contest": {
+    "id": "adt_medium_20250212_1",
+    "title": "AtCoder Daily Training MEDIUM 2025/02/12 16:00start",
+    "url": "https://atcoder.jp/contests/adt_medium_20250212_1"
+  },
+  "tasks": [
+    {
+      "id": "abc231_b",
+      "label": "C",
+      "title": "Election",
+      "url": "https://atcoder.jp/contests/adt_medium_20250212_1/tasks/abc231_b",
+      "directory": {
+        "path": "c",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc290_b",
+      "label": "D",
+      "title": "Qual B",
+      "url": "https://atcoder.jp/contests/adt_medium_20250212_1/tasks/abc290_b",
+      "directory": {
+        "path": "d",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc382_c",
+      "label": "E",
+      "title": "Kaiten Sushi",
+      "url": "https://atcoder.jp/contests/adt_medium_20250212_1/tasks/abc382_c",
+      "directory": {
+        "path": "e",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc311_c",
+      "label": "F",
+      "title": "Find it!",
+      "url": "https://atcoder.jp/contests/adt_medium_20250212_1/tasks/abc311_c",
+      "directory": {
+        "path": "f",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc370_d",
+      "label": "G",
+      "title": "Cross Explosion",
+      "url": "https://atcoder.jp/contests/adt_medium_20250212_1/tasks/abc370_d",
+      "directory": {
+        "path": "g",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    }
+  ]
+}

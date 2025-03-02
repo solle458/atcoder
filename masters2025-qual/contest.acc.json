@@ -1,0 +1,42 @@
+{
+  "contest": {
+    "id": "masters2025-qual",
+    "title": "The 2nd Masters Championship-qual-",
+    "url": "https://atcoder.jp/contests/masters2025-qual"
+  },
+  "tasks": [
+    {
+      "id": "masters2025_qual_a",
+      "label": "A",
+      "title": "Ore Rolling (A)",
+      "url": "https://atcoder.jp/contests/masters2025-qual/tasks/masters2025_qual_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "masters2025_qual_b",
+      "label": "B",
+      "title": "Ore Rolling (B)",
+      "url": "https://atcoder.jp/contests/masters2025-qual/tasks/masters2025_qual_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "masters2025_qual_c",
+      "label": "C",
+      "title": "Ore Rolling (C)",
+      "url": "https://atcoder.jp/contests/masters2025-qual/tasks/masters2025_qual_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    }
+  ]
+}
