@@ -1,0 +1,21 @@
+{
+    "name": "AtCoder DevContainer",
+    "dockerFile": "Dockerfile",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-python.python",
+                "rust-lang.rust-analyzer",
+                "golang.go",
+                "sumneko.lua",
+                "editorconfig.editorconfig"
+            ]
+        },
+        "settings": {
+            "terminal.integrated.defaultProfile.linux": "bash"
+        }
+    },
+    "forwardPorts": [],
+    "remoteUser": "root"
+}
