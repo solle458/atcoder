@@ -1,0 +1,64 @@
+{
+  "contest": {
+    "id": "adt_medium_20250304_1",
+    "title": "AtCoder Daily Training MEDIUM 2025/03/04 15:30start",
+    "url": "https://atcoder.jp/contests/adt_medium_20250304_1"
+  },
+  "tasks": [
+    {
+      "id": "abc283_b",
+      "label": "C",
+      "title": "First Query Problem",
+      "url": "https://atcoder.jp/contests/adt_medium_20250304_1/tasks/abc283_b",
+      "directory": {
+        "path": "c",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc233_b",
+      "label": "D",
+      "title": "A Reverse",
+      "url": "https://atcoder.jp/contests/adt_medium_20250304_1/tasks/abc233_b",
+      "directory": {
+        "path": "d",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc293_c",
+      "label": "E",
+      "title": "Make Takahashi Happy ",
+      "url": "https://atcoder.jp/contests/adt_medium_20250304_1/tasks/abc293_c",
+      "directory": {
+        "path": "e",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc364_c",
+      "label": "F",
+      "title": "Minimum Glutton",
+      "url": "https://atcoder.jp/contests/adt_medium_20250304_1/tasks/abc364_c",
+      "directory": {
+        "path": "f",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "abc347_d",
+      "label": "G",
+      "title": "Popcount and XOR",
+      "url": "https://atcoder.jp/contests/adt_medium_20250304_1/tasks/abc347_d",
+      "directory": {
+        "path": "g",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    }
+  ]
+}
