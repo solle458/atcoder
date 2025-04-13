@@ -55,7 +55,7 @@ int main(){
             idx += p.second;
             if(p.first == '?' and p.second%2 == 1){
                 for(int i = 0; i < p.second; i++){
-                    s[idx-1-i] = (i%2 == 0) ? 'o' : 'x';
+                    s[idx-1-i] = (i%2 == 0) ? 'o' : '.';
                 }
             }
         }
