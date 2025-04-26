@@ -234,6 +234,16 @@ vector<pair<char, int>> runLength(const string& s) {
     return result;
 }
 
+vector<vector<int> > calcNext(const string &s) {
+  int n = (int)s.size();
+  vector<vector<int> > res(n+1, vector<int>(26, n));
+  for (int i = n-1; i >= 0; --i) {
+      for (int j = 0; j < 26; ++j) res[i][j] = res[i+1][j];
+      res[i][s[i]-'a'] = i;
+  }
+  return res;
+}
+
 /*-------------------------------template-------------------------------*/
 int main(){
 }
