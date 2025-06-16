@@ -1,0 +1,18 @@
+Best Score: 903.886
+Best Parameters:
+timeLimit=2.179 startTemp=187.376 endTemp=0.309 baseQualityThreshold=0.288 urgencyMultiplier=0.440 urgencyThreshold=0.507 relaxedQualityThreshold=0.729 consecutiveFailureLimit=4 capacityWeight=15.087 colorDistanceWeight=124.023 emptyWellColorWeight=95.684 topTubeCount=4
+
+C++ code format:
+OptimizationParams optimizedParams;
+optimizedParams.timeLimit = 2.17881;
+optimizedParams.startTemp = 187.376;
+optimizedParams.endTemp = 0.308972;
+optimizedParams.baseQualityThreshold = 0.287727;
+optimizedParams.urgencyMultiplier = 0.440162;
+optimizedParams.urgencyThreshold = 0.507306;
+optimizedParams.relaxedQualityThreshold = 0.729119;
+optimizedParams.consecutiveFailureLimit = 4;
+optimizedParams.capacityWeight = 15.0873;
+optimizedParams.colorDistanceWeight = 124.023;
+optimizedParams.emptyWellColorWeight = 95.6841;
+optimizedParams.topTubeCount = 4;

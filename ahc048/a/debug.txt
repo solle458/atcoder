@@ -1,0 +1,17 @@
+Well Usage Statistics:
+Well 0: 196876 times
+Well 1: 85925 times
+Well 2: 42809 times
+Well 3: 30464 times
+Well 4: 28174 times
+Well 5: 27296 times
+Well 6: 25843 times
+Well 7: 28649 times
+Well 8: 27373 times
+Well 9: 26978 times
+Well 10: 26702 times
+Well 11: 28736 times
+Well 12: 28322 times
+Well 13: 26416 times
+Well 14: 27224 times
+Well 15: 26738 times
